@@ -182,7 +182,7 @@ struct muvelet {
 ```
 
 Ez lehet egy teljesen jó megoldás, de nem jó akkor, ha ezeket a műveleteket egy library-nek
-kell beadnunk, ami nem tudja, hogy mit is jelent a `+`, `-`, `*` és a `/`. Ilyenkor járhatunk
+kell beadnunk, ami nem tudja, hogy mit is jelent a `+` és a `-`. Ilyenkor járhatunk
 jobban egy olyan adatstruktúrával, ami "tudja magától", hogy hogyan kell a műveletet elvégezni:
 
 ```C

@@ -1,4 +1,4 @@
-# C függvény pointer példa
+# C függvény pointer egy struktúra adattagjaként
 
 Ebben a könyvtárban a "Function pointer C-ben / Struktúra" fejezethez található
 egy példa.

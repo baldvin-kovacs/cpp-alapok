@@ -1,4 +1,4 @@
 #!/bin/bash
 
 make
-./struktura < bemenet.txt
+./struktura_example < bemenet.txt

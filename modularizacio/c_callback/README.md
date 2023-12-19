@@ -1,4 +1,4 @@
-# c_callback
+# C callback függvény példa
 
 Ebben a könyvtárban *Function pointer C-ben* fejezethez található egy példa.
 

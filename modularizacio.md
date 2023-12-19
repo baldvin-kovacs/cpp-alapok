@@ -159,3 +159,46 @@ csak azt, hogy hogyan néz ki a függvény, miközben az implementációt egy li
 fordítjuk le, nem pedig magával a programmal együtt. A [Makefile](modularizacio/c_callback/Makefile)-ban
 látható, hogy a `feldolgozo.o` külön fordítódik, és lefordított (object) fájlként
 van hozzálinkelve a végső binárishoz (a `c_callback_exammple`-höz).
+
+### Struktúra 
+
+Képzeljük el, hogy be kell olvasnunk egy csomó műveletet, de nem rögtön végrehajtani, hanem
+csak eltárolni, későbbi végrehajtáshoz. Valami ilyesmi inputunk van:
+
+```txt
+3 + 5
+4 - 6
+6 + 8
+```
+
+Ezt egyszerűen eltárolhatjuk egy olyan struktúrában, amelyik egy sima karakterben kódolja, hogy
+mit is csinálunk a két számmal:
+
+```C
+struct muvelet {
+    double a, b;
+    char muveleti_jel;
+};
+```
+
+Ez lehet egy teljesen jó megoldás, de nem jó akkor, ha ezeket a műveleteket egy library-nek
+kell beadnunk, ami nem tudja, hogy mit is jelent a `+`, `-`, `*` és a `/`. Ilyenkor járhatunk
+jobban egy olyan adatstruktúrával, ami "tudja magától", hogy hogyan kell a műveletet elvégezni:
+
+```C
+struct muvelet {
+    double a, b;
+    double (*vegrehajto)(double a, double b);
+};
+```
+
+Ez jó hajmeresztően néz ki, de ha jól figyeltünk a fejezet eddigi részében, akkor nem fog ki
+rajtunk: a `vegrehajto` a *neve* az adattagnak! A típusa pedig `double (*)(double a, double b)`,
+tehát egy függvény pointer, ami olyan függvényekre tud mutatni, amelyek két double paramétert
+kapnak, és egy double-t adnak vissza.
+
+Erre egy példát a [struktura](modularizacio/struktura/) példaprogramban láthatunk.
+
+### Segít a typedef!
+
+

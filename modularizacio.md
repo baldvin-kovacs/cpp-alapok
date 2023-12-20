@@ -219,10 +219,10 @@ még furcsábban kell írni.
 char (*fuggvenyek[17])(double, int);
 ```
 
-Itt a változó neve a `fuggvenyek`, és mivel a kellős közepén van egy függvény típusának, egy
-csillagtól jobbra, ezéert a `fuggvenyek` egy pointer lenne egy függvényre, hacsak nem lenne a
-`[17]` is. Így a `fuggvenyek` egy tömb a memóriában, szépen egymás mellett 17 darab mutatónak
-van hely benne.
+Itt a változó neve a `fuggvenyek`, és mivel a kellős közepén van egy függvényre mutató pointer
+típusának, ezért a `fuggvenyek` egy pointer lenne egy függvényre, hacsak nem lenne a
+`[17]` is. Emiatt a `[17]` miatt a `fuggvenyek` egy tömb lesz a memóriában, szépen egymás
+mellett 17 darab mutatónak van hely benne.
 
 A [c_fun_ptr_array](modularizacio/c_fun_ptr_array/) könyvtárban található egy minimalista
 példa.

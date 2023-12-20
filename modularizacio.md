@@ -160,7 +160,7 @@ fordítjuk le, nem pedig magával a programmal együtt. A [Makefile](modularizac
 látható, hogy a `feldolgozo.o` külön fordítódik, és lefordított (object) fájlként
 van hozzálinkelve a végső binárishoz (a `c_callback_exammple`-höz).
 
-### Struktúra 
+### Függvény pointerek struktúrában 
 
 Képzeljük el, hogy be kell olvasnunk egy csomó műveletet, de nem rögtön végrehajtani, hanem
 csak eltárolni, későbbi végrehajtáshoz. Valami ilyesmi inputunk van:
@@ -197,7 +197,41 @@ rajtunk: a `vegrehajto` a *neve* az adattagnak! A típusa pedig `double (*)(doub
 tehát egy függvény pointer, ami olyan függvényekre tud mutatni, amelyek két double paramétert
 kapnak, és egy double-t adnak vissza.
 
-Erre egy példát a [struktura](modularizacio/struktura/) példaprogramban láthatunk.
+Erre egy példát a [c_struktura](modularizacio/c_struktura/) példaprogramban láthatunk.
+ 
+### Függvény pointerek tömbje
+
+C-ben nem csak a függvény pointereknek van fura szintaktikája, hanem a tömbnek is:
+
+```C
+double szamok[17];
+```
+
+Ez azt jelenti, hogy a `szamok` változó egy olyan memóriaterület, amelybe sorban 17 `double` fér
+bele, azaz egy 17 hosszú tömb. Gondolhatnánk, hogy a `double[17]` a típus, és azt kéne előre írni,
+majd utána a változó nevét, de nem így van. A változó nevét egy tömb, -- angolul *array* -- esetén
+középre kell írni, és kész.
+
+Ezek után már nem okozhat nagy nehézséget elfogadni, hogy függvény pointerek tömbjének a változóját
+még furcsábban kell írni.
+
+```C
+char (*fuggvenyek[17])(double, int);
+```
+
+Itt a változó neve a `fuggvenyek`, és mivel a kellős közepén van egy függvény típusának, egy
+csillagtól jobbra, ezéert a `fuggvenyek` egy pointer lenne egy függvényre, hacsak nem lenne a
+`[17]` is. Így a `fuggvenyek` egy tömb a memóriában, szépen egymás mellett 17 darab mutatónak
+van hely benne.
+
+A [c_fun_ptr_array](modularizacio/c_fun_ptr_array/) könyvtárban található egy minimalista
+példa.
+
+
+
+
+
+
 
 ### Segít a typedef!
 

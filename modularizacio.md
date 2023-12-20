@@ -227,12 +227,61 @@ mellett 17 darab mutatónak van hely benne.
 A [c_fun_ptr_array](modularizacio/c_fun_ptr_array/) könyvtárban található egy minimalista
 példa.
 
-
-
-
-
-
-
 ### Segít a typedef!
 
+Noha jó ismerni a függvénypointerek furcsa szintaktikáját, valójában szinte sohasem használjuk
+ebben a formában. Nekünk tudnunk kell, hogy megértsük, ha valaki más ilyen kódot írt, de
+amikor mi írunk kódot, akkor mindig próbáljuk úgy, hogy egyszerűbben olvasható legyen.
+
+Nézzük a szokásos következő példánkat:
+
+```C
+char (*x)(int, double);
+```
+
+Mi az `x`? Egy változó. Miféle változó? Egy pointer, tehát egy szám, ami megadja valaminek
+a helyét a memóriában.
+
+Mi az `x` típusa? Egy pointer, amelyik olyan függvényekre tud mutatni, amelyek egy `int` és
+egy `double` paramétert kapnak, és egy `char`-t adnak vissza.
+
+Ezt az utóbbi mondatot kódban is kifejezhetjük, adhatunk egy nevet ennek a típusnak. Ha mondjuk
+valaminek a feldolgozására használunk ilyen függvényeket, akkor írhatjuk például ezt:
+
+```C
+typedef char(*feldolgozo_fuggveny)(int, double);
+```
+
+Ez pontosan ugyanúgy néz ki, mintha a `feldolgozo_fuggveny` egy változó lenne, de mivel az egész
+előtt ott van, hogy typedef, ezért a `feldolgozo_fuggveny` nem egy változó, hanem egy típus.
+Egészen pontosan egy úgynevesett *alias*, egy másik név a függvénypointer típusra, amelyik egy ˙int˙-et
+és egy `double`-t paraméterként vevő, `char`-t visszaadó függvényre tud mutatni.
+
+Miután így definiáltunk egy saját nevet ennek a típusnak utána már a szokásos módon tudunk
+ilyen változót definiálni:
+
+```C
+feldolgozo_fuggveny fuggvenyre_mutato_pointer;
+```
+
+Mivel ez egy pointer, ezért használhatjuk a normál szintaktikát, az `&` jelet hogy egy függvény
+címét megkapjuk, majd a `*` jelet hogy abból visszakapjuk a függvényt, hogy meghívhassuk:
+
+Feltéve, hogy van egy pont megfelelő típusú `char csinalj_valamit(int a, int b)` függvényünk is, ezek
+után írhatjuk, hogy:
+
+```C
+fuggvenyre_mutato_pointer = &csinalj_valamit;
+char c = (*fuggvenyre_mutato_pointer)(27, 1.2);
+```
+
+Mivel a függvényt C-ben úgyis csak pointerként tudjuk eltárolni, ezért C-ben elhagyhatjuk a
+speciális karaktereket, azaz az `&`-t és a `*`-ot, hiszen úgyis tudja a fordító, hogy mire
+gondolunk:
+
+```C
+fuggvenyre_mutato_pointer = csinalj_valamit;
+char c = fuggvenyre_mutato_pointer(27, 1.2);
+```
+A [c_fun_ptr_typedef](modularizacio/c_fun_ptr_typedef/) mutatja ezeket fordítható kódban.
 

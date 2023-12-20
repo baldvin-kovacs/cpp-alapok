@@ -242,8 +242,8 @@ char (*x)(int, double);
 Mi az `x`? Egy változó. Miféle változó? Egy pointer, tehát egy szám, ami megadja valaminek
 a helyét a memóriában.
 
-Mi az `x` típusa? Egy pointer, amelyik olyan függvényekre tud mutatni, amelyek egy `int` és
-egy `double` paramétert kapnak, és egy `char`-t adnak vissza.
+Mi az `x` típusa? Az `x` pontos típusa: *int-et és double-t paraméterként vevő, char-t visszaadó
+függvényre mutató pointer*.
 
 Ezt az utóbbi mondatot kódban is kifejezhetjük, adhatunk egy nevet ennek a típusnak. Ha mondjuk
 valaminek a feldolgozására használunk ilyen függvényeket, akkor írhatjuk például ezt:

@@ -298,8 +298,8 @@ olvasni ilyenből egy csomót. A programban néha szükségünk lesz a terület�
 hogy milyen távol van a középpontjuk az origótól, esetleg más hasonló dolgokra is. Szükségünk
 lehet néhány módosító függvényre is, például el akarhatjuk tolni a kört kicsit jobbrább és feljebb.
 
-C-ben ehhez definiálunk egy struktúrát, majd írunk függvényeket, amik kiszámolják a dolgokat,
-amikre szükségünk van:
+C-ben ehhez definiálunk egy struktúrát, majd írunk függvényeket, amik kiszámolják illetve
+végrehajtják a dolgokat, amikre szükségünk van:
 
 ```C
 
@@ -377,7 +377,7 @@ Megjegyzések:
 2. C++-ban a metódusokat implementálhatjuk közvetlenül a `class {...}`-on belül is. Itt azért
    a külső implementációt választottam (a `::`-os változatot), hogy jobban hasonlítson a C-s
    kódhoz. A valóságban legtöbbször akkor használjük a külső implementációt, amikor a metódusokat
-   egy külön fájlban szerenénk fordítani, hogy library-ként felhasználhatók legyenek.
+   egy külön fájlba szerenénk fordítani, hogy library-ként felhasználhatók legyenek.
 
 Az osztályoknak még rengeteg egyéb képessége van, de azokról itt nem írok részletesen. Ennek a
 fejezetnek az egyetlen lényeges üzenete, hogy az osztályok metódusaira gondoljunk mindig úgy,
@@ -385,11 +385,16 @@ ahogy a fenti C-s implementációban kinéznek: egy sima függvény, ami kap egy
 osztály-példányra, amin a metódust meghívjuk. Tehát ha ezt látjuk
 
 ```C++
-k.arrebb_tol(double dx, double dy);
+k.arrebb_tol(dx, dy);
 ```
 
 akkor erre úgy gondolunk, hogy "egy dx, dy paraméterű metódus, amit a k osztálypéldányon meghívtunk",
 de valójában úgy is gondolhatunk rá, hogy ez "egy egyszerű &k, dx, dy paraméterű függvény". Azaz
 a metódus a háttérben nem más, mint egy függvény, ami kap egy pointert az osztály példányára, amin fut.
+C-ben ugyanez így nézne ki:
+
+```C
+arrebb_tol(&k, dx, dy);
+```
 
 

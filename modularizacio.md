@@ -1,4 +1,4 @@
-# A modularizáció alapja C++-ban
+# A modularizáció alapjai C++-ban
 
 ## Miért is kellene függvényre pointer?
 
@@ -120,7 +120,7 @@ olyan típusú függvényre mutató pointert adunk át, mint amire épp ott szü
 a C++ is ad megoldást. A C-ben elég nehézkes volt a dolog, ezért a C++ bevezetett saját, másik
 megoldást. A következőkben végignézünk hármat.
 
-## Function pointer C-ben
+## Függvény pointer C-ben
 
 Egy függvény típusa két dologból áll össze: hogy a függvény milyen paramétereket vesz be, és hogy
 milyen eredményt ad vissza. C-ben nagyon furcsán kell ezt írni.
@@ -276,7 +276,7 @@ fuggvenyre_mutato_pointer = &csinalj_valamit;
 char c = (*fuggvenyre_mutato_pointer)(27, 1.2);
 ```
 
-Mivel a függvényt C-ben úgyis csak pointerként tudjuk eltárolni, ezért C-ben elhagyhatjuk a
+Mivel a függvényt C-ben úgyis csak pointerként tudjuk eltárolni, ezért elhagyhatjuk a
 speciális karaktereket, azaz az `&`-t és a `*`-ot, hiszen úgyis tudja a fordító, hogy mire
 gondolunk:
 
@@ -285,4 +285,111 @@ fuggvenyre_mutato_pointer = csinalj_valamit;
 char c = fuggvenyre_mutato_pointer(27, 1.2);
 ```
 A [c_fun_ptr_typedef](modularizacio/c_fun_ptr_typedef/) mutatja ezeket fordítható kódban.
+
+## Class-ok
+
+It a class-oknak csak azt az icipici oldalát tekintjük át, ami szükséges lesz a későbbiekben
+a modularizációs technikák ismertetéséhez.
+
+### Egyszerű, virtuális metódus nélküli osztályok
+
+Képzeljük el, hogy köröket akarunk ábrázolni, megvan a középpontjuk, meg a sugaruk. Be akarunk
+olvasni ilyenből egy csomót. A programban néha szükségünk lesz a területükre, a kerületükre,
+hogy milyen távol van a középpontjuk az origótól, esetleg más hasonló dolgokra is. Szükségünk
+lehet néhány módosító függvényre is, például el akarhatjuk tolni a kört kicsit jobbrább és feljebb.
+
+C-ben ehhez definiálunk egy struktúrát, majd írunk függvényeket, amik kiszámolják a dolgokat,
+amikre szükségünk van:
+
+```C
+
+struct kor {
+    double x, y;
+    double r;
+};
+
+double terulet(struct kor* k) {
+    return 3.14 * k->r * k->r;
+}
+
+void arrebb_tol(struct kor* k, double dx, double dy) {
+    k->x += dx;
+    k->y += dy;
+}
+
+int main() {
+    struct kor k;
+    k.x = 5.0;
+    k.y = 7.0;
+    k.r = 1.0;
+
+    arrebb_tol(&k, 1, 3);
+    printf("x=%f, y=%f, terulet=%f\n", k.x, k.y, terulet(&k));
+}
+
+```
+
+Minél több ilyen függvényt írunk, annál jobban körvonalazódik egy minta: minden ilyen függvény
+természetes első paramétere egy mutató (*pointer*) arra, hogy hol van a memóriában a kört
+reprezentáló struktúra, és utána a többi esetleges paraméter, amelyek megmondják, hogy mit
+csináljon vele a függvény.
+
+A C++ osztály fogalma nem más, mint erre egy szép szintaktika. Sem nem több, sem nem jobb ennél,
+pontosan így működik.
+
+Az előző kódnak pontosan megfelelő kód, C++ osztályt használva:
+
+```C++
+class Kor {
+ public:
+  double x, y;
+  double r;
+
+  double terulet();
+  void arrebb_tol(double dx, double dy);
+};
+
+double Kor::terulet() {
+    return r * r;
+}
+
+void Kor::arrebb_tol(double dx, double dy) {
+    x += dx;
+    y += dy;
+}
+
+int main() {
+    Kor k;
+    k.x = 5.0;
+    k.y = 7.0;
+    k.r = 1.0;
+    
+    k.arrebb_tol(1, 3);
+    std::cout << "x=" << k.x << ", y=" << k.y << ", terulet=" << k.terulet() << std::endl; 
+}
+```
+
+Megjegyzések:
+
+1. C++-ban `class` helyett írhatunk `struct`-ot, és akkor minden publikus lesz magától, akkor
+   nem kell a `public:`. C++-ban `struct`-nak is lehetnek metódusai. Tehát a C++-os `struct`
+   az közelebb van a `class`-hoz, mint a C-s `struct`-hoz.
+2. C++-ban a metódusokat implementálhatjuk közvetlenül a `class {...}`-on belül is. Itt azért
+   a külső implementációt választottam (a `::`-os változatot), hogy jobban hasonlítson a C-s
+   kódhoz. A valóságban legtöbbször akkor használjük a külső implementációt, amikor a metódusokat
+   egy külön fájlban szerenénk fordítani, hogy library-ként felhasználhatók legyenek.
+
+Az osztályoknak még rengeteg egyéb képessége van, de azokról itt nem írok részletesen. Ennek a
+fejezetnek az egyetlen lényeges üzenete, hogy az osztályok metódusaira gondoljunk mindig úgy,
+ahogy a fenti C-s implementációban kinéznek: egy sima függvény, ami kap egy pointert arra az
+osztály-példányra, amin a metódust meghívjuk. Tehát ha ezt látjuk
+
+```C++
+k.arrebb_tol(double dx, double dy);
+```
+
+akkor erre úgy gondolunk, hogy "egy dx, dy paraméterű metódus, amit a k osztálypéldányon meghívtunk",
+de valójában úgy is gondolhatunk rá, hogy ez "egy egyszerű &k, dx, dy paraméterű függvény". Azaz
+a metódus a háttérben nem más, mint egy függvény, ami kap egy pointert az osztály példányára, amin fut.
+
 

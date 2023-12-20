@@ -10,7 +10,7 @@ char csinalj_valamit(int a, double b) {
 int main() {
     feldolgozo_fuggveny f;
 
-    // Az f-be betesszük az xxx függvény címét:
+    // Az f-be betesszük az csinalj_valamit függvény címét:
     f = &csinalj_valamit;
 
     // f egy függvény pointer, ezért a csillaggal dereferáljuk (hogy megkapjuk

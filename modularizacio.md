@@ -246,7 +246,8 @@ Mi az `x` típusa? Az `x` pontos típusa: *int-et és double-t paraméterként v
 függvényre mutató pointer*.
 
 Ezt az utóbbi mondatot kódban is kifejezhetjük, adhatunk egy nevet ennek a típusnak. Ha mondjuk
-valaminek a feldolgozására használunk ilyen függvényeket, akkor írhatjuk például ezt:
+valaminek a feldolgozására használunk ilyen függvényeket, akkor definiálhatjuk az ilyen függvényekre
+mutató pointer típust:
 
 ```C
 typedef char(*feldolgozo_fuggveny)(int, double);

@@ -397,4 +397,121 @@ C-ben ugyanez így nézne ki:
 arrebb_tol(&k, dx, dy);
 ```
 
+### Öröklődés
 
+Képzeljük el hogy egy olyan programon dolgozunk, amely körökkel és négyzetekkel foglalkozik.
+Jön egy csomó az inputon, el kell őket tárolnunk, majd csinálni kell velük valamit.
+
+Néhány dolog közös bennük, például hogy van közepük, és hogy hogy kell az origótól való
+távolságukat kiszámolni. Néhány dolog viszont specifikus az alakzatra, például hogy hogyan kell
+a területüket kiszámolni, vagy hogy milyen adattagjaik vannak a középponton kívül.
+
+A közös rész:
+
+```C
+struct alakzat {
+    double x, y;
+};
+
+void eltol(alakzat* a, double dx, double dy) {
+    a->x += dx;
+    a->y += dy;
+}
+```
+
+Vajon hogyan tudnánk felhasználni ezt a közös részt úgy, hogy a kört és a négyzetet valahogyan
+ezt kiegészítve írjuk csak le? Valahogy így próbálkozhatunk:
+
+```C
+struct kor {
+    struct alakzat a;
+    double r;
+};
+
+double terulet_kor(struct kor* k) {
+    return 3.14 * k->r * k->r;
+} 
+
+struct teglalap {
+    struct alakzat a;
+    double top, left;
+};
+
+double terulet_negyzet(struct negyzet* n) {
+    double szelesseg = 2.0 * (n->x - left);
+    double magassag = 2.0 * (n->y - top);
+}
+```
+
+Az alábbi ábra mutatja, hogy hogyan néznek ezek ki a memóriában. Láthatjuk, hogy a `kor` és
+a `negyzet` is egy `alakzat`-tal indul, és utána jönnek a saját, specifikus adattagjaik:
+
+![Struct öröklés memória layout](images/struct-orokles-memoria-layout.png)
+
+
+### Virtuális metódusok
+
+A virtuális metódusok témáját nem C-vel illusztráljuk, hanem úgy teszünk mintha a C++-ban nem lennének
+virtuális metódusok, de egyébként a többi más feature létezik.
+
+Egy ilyen, a témához fontos fogalom az öröklődés:
+
+```C++
+class Alakzat {
+ public:
+    double x, y;
+    double terulet() { return 0; }
+}
+
+class Kor : public Alakzat {
+ public:
+    double r;
+    double terulet() {
+        return r * r;
+    }
+}
+
+class Negyzet : public Alakzat {
+ public:
+    double top, left;
+    double terulet() {
+        double szelesseg = 2 * (x - left);
+        double magassag = 2 * (y - top);
+        return szelesseg * magassag;
+    }
+}
+```
+
+Mit látunk itt? Egy kör és egy négyzet osztályt, amelyek az Alakzat tagjait (adattagjait és
+metódusait is) öröklik. Ezt az öröklődést a ``: public Alakzat` írja elő az osztály deklarálásánál.
+
+Ez a kód így leírva fordul és működik, tudunk készíteni példányokat bármelyikből, meg tudjuk hívni
+a `terulet()` metódusaikat, minden szuper, egy fontos dolog kivételével.
+
+Amikor egy alap-osztályból, angolul base class-ból több másik osztály örököl, akkor a legtöbbször
+ezt azért tesszük, hogy fenntarthassunk egy gyűjteményt, mondjuk egy vektort, amiben ilyenek és olyanok
+vegyesen vannak. Valami ilyesmit:
+
+```C++
+std::vector<Alakzat> alakzatok;
+
+Kor k;
+k.x = 5.0;
+k.y = 3.0;
+k.r = 10.0;
+alakzatok.push(k);
+
+Negyzet n;
+n.x = 5.0;
+n.y = 3.0;
+n.top = 10.0;
+n.left = 1.0;
+alakzatok.push(n);
+
+double osszes_terulet = 0;
+for (int i = 0; i < alakzatok.size(); ++i) {
+    osszes_terulet += alakzatok[i].terulet();
+}
+```
+
+Még ez a kód is működik, de van benne egy hatalmas probléma: amikor 

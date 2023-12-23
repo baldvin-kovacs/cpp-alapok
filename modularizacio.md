@@ -505,14 +505,18 @@ double Teglalap::terulet() {
 Megfigyelések:
 
 1.   C-ben a nyelv nem tartotta számon, hogy melyik metódus tartozik melyik osztályhoz (struktúrához), a
-     programozónak kellett azt fejből tudnia. C++-ban a metódusokat kötelező felsorolni magában az osztály
-     deklarációjában.
+     programozónak kellett azt fejből tudnia. Ezzel szemben C++-ban a metódusokat kötelező felsorolni
+     magában az osztály deklarációjában. Ez hasznos, hiszen míg C-ben más-más függvényneveket kellett választanunk a
+     terület számításához, C++-ban a metódusok az osztályhoz tartoznak, ezért a terület számító
+     metódusokat nevezhetjük mindegyiket `terulet`-nek.
 2.   A metódusok implementációiban az adattagokat (például `x` vagy `top`) csak úgy, magukban tudjuk használni,
      mégpedig az örökölteket is. Nézzük pédául meg, ahogy a `double Teglalap::terulet()` függvényben használjuk
      az ˙x˙, `y`, `top` és `left` vátozókat, csak úgy, pucéran.
-3.  `Teglalap` *is an* `Alakzat`, vagy magyarul: a `Teglalap` *az egy* alakzat. Ez a `: public Alakzat`
+3.  A `Teglalap` *maga egy alakzat*, nem pedig *van egy alakzatja*. Ez a `: public Alakzat`
     miatt van így, és nagyon hasznos tud lenni. Ez azt jelenti, hogy minden adattag, és minden metódus, ami 
     benne van az `Alakzat`-ban benne van a leszármazott osztályokban, tehát a `Kor`-ben és a `Teglalap`-ban is.
+
+Hamar igényünk támad arra, hogy egy csomó alakzatot együtt kezeljünk, mondjuk egy vektorban. 
 
 ### Virtuális metódusok
 

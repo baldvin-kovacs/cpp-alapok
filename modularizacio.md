@@ -332,7 +332,8 @@ int main() {
 Minél több ilyen függvényt írunk, annál jobban körvonalazódik egy minta: minden ilyen függvény
 természetes első paramétere egy mutató (*pointer*) arra, hogy hol van a memóriában a kört
 reprezentáló struktúra, és utána a többi esetleges paraméter, amelyek megmondják, hogy mit
-csináljon vele a függvény.
+csináljon vele a függvény. Az ilyen függvényeket szoktuk az adott struktúra metódusainak hívni,
+bár különösen C++-ban, C-ben talán kevéssé elterjedt a metódus név használata.
 
 A C++ osztály fogalma nem más, mint erre egy szép szintaktika. Sem nem több, sem nem jobb ennél,
 pontosan így működik.
@@ -448,6 +449,70 @@ a `negyzet` is egy `alakzat`-tal indul, és utána jönnek a saját, specifikus 
 
 ![Struct öröklés memória layout](images/struct-orokles-memoria-layout.png)
 
+Két fontos megfigyelést teszünk:
+
+1.   Noha úgy érezzük, hogy, az eltoló, illetve a terület-számoló függvények
+     hozzá tartoznak az adatstruktúránkhoz, a memóriában ezeknek nincsen semmi nyoma. A memóriában
+     kizárólag az adattagokat tároljuk, és a programozó feladata a jó függvények nevére emlékezni,
+     amivel azokat az adatokat kezelni lehet.
+2.   Noha a téglalap egy alakzat, de a kód mégsem igazán ezt mondja. A fenti, C nyelvű kódban megírt
+     téglalapnak *van egy alakzatja*, nem pedig *ő maga egy alakzat*. Ha például van egy `tl` nevű,
+     `teglalap` típusú változónk, akkor annak a középpontjának az `x` koordinátáját nem úgy kapjuk,
+     hogy `tl.x`, hanem hogy `tl.a.x`.
+
+C++-ban ezt írhattuk volna úgy, hogy a `Kor` és a `Teglalap` osztály *örököl* az `Alakzat` osztályból.
+Az alábbi C++ kód a pontos megfelelője a fenti C kódnak.
+
+```C++
+
+class Alakzat {
+ public:
+    double x, y;
+
+    void eltol(double dx, double dy);
+};
+
+void Alakzat::eltol(double dx, double dy) {
+    x += dx;
+    y += dy;
+}
+
+class Kor : public Alakzat {
+ public:
+    double r;
+
+    double terulet();
+};
+
+double Kor::terulet() {
+    return 3.14 * r * r;
+}
+
+class Teglalap : public Alakzat {
+ public:
+    double left, top;
+
+    double terulet();
+}
+
+double Teglalap::terulet() {
+    double szelesseg = 2.0 * (x - left);
+    double magassag = 2.0 * (y - top);
+    return szelesseg * magassag;
+}
+```
+
+Megfigyelések:
+
+1.   C-ben a nyelv nem tartotta számon, hogy melyik metódus tartozik melyik osztályhoz (struktúrához), a
+     programozónak kellett azt fejből tudnia. C++-ban a metódusokat kötelező felsorolni magában az osztály
+     deklarációjában.
+2.   A metódusok implementációiban az adattagokat (például `x` vagy `top`) csak úgy, magukban tudjuk használni,
+     mégpedig az örökölteket is. Nézzük pédául meg, ahogy a `double Teglalap::terulet()` függvényben használjuk
+     az ˙x˙, `y`, `top` és `left` vátozókat, csak úgy, pucéran.
+3.  `Teglalap` *is an* `Alakzat`, vagy magyarul: a `Teglalap` *az egy* alakzat. Ez a `: public Alakzat`
+    miatt van így, és nagyon hasznos tud lenni. Ez azt jelenti, hogy minden adattag, és minden metódus, ami 
+    benne van az `Alakzat`-ban benne van a leszármazott osztályokban, tehát a `Kor`-ben és a `Teglalap`-ban is.
 
 ### Virtuális metódusok
 

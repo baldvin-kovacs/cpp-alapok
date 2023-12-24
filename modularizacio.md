@@ -516,7 +516,15 @@ Megfigyelések:
     miatt van így, és nagyon hasznos tud lenni. Ez azt jelenti, hogy minden adattag, és minden metódus, ami 
     benne van az `Alakzat`-ban benne van a leszármazott osztályokban, tehát a `Kor`-ben és a `Teglalap`-ban is.
 
-Hamar igényünk támad arra, hogy egy csomó alakzatot együtt kezeljünk, mondjuk egy vektorban. 
+Hamar igényünk támad arra, hogy egy csomó alakzatot együtt tároljunk valamiféle *container*-ben,
+mondjuk egy vektorban. Próbáljunk írni egy programot, amelyik beolvas egy csomó kört és téglalapot,
+eltárolja őket egy vektorban, majd végigmegy a vektoron, és kiszámolja a területeket. Valami
+ilyesmit próbálunk:
+
+
+
+
+
 
 ### Virtuális metódusok
 

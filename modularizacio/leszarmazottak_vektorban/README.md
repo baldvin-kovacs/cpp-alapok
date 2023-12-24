@@ -8,7 +8,7 @@ Az elképzelt feladat: a `bemenet.txt`-ben adott egy listája köröknek
 vektoron, és mindegyik alakzatnak számoljuk ki a területét, és adjuk
 össze.
 
-## <[01_peldany_vektor.cc](./01_peldany_vektor.cc)
+## [01_peldany_vektor.cc](./01_peldany_vektor.cc)
 
 Az első kísérletünk, egyszerűen készíteni egy vektort a bázis osztályból.
 Nem megy, mert a vektorban csak azok a bájtok vannak, amik a bázis osztályban is

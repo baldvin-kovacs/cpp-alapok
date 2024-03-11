@@ -1,11 +1,19 @@
 #include <fcntl.h>
-#include <glib-unix.h>
-#include <glib.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-int input_fd;
+#include <glib.h>
+// A g_unix_fd_source_new függvényt nem exportálja a glib.h. Nem tudom, hogy ez valahol
+// benne van-e a dokumentációban, én nem találtam meg a dokumentációban, hanem glib
+// forrását olvasva találtam ki. A glib forrását innen töltöttem le:
+// https://github.com/GNOME/glib . Utána kikerestem, hogy melyik fájlban fan a kérdéses
+// függvény: `grep -r g_unix_fd_source_new .`. A sorokat végignézegetve láttam, hogy
+// a függvénz a glib-unix.h-ban van deklarálva. Ezután megnéztem, hogy a glib-unix.h
+// van-e valahonnan include-olva: `grep -r glib-unix.h .`, és kiderült, hogy nincs.
+// Mivel ezt nem include-oltuk be legutóbb, ezért kaptuk ezt a hibaüzenetet:
+// warning: implicit declaration of function ‘g_unix_fd_source_new’; did you mean ‘g_idle_source_new’? [-Wimplicit-function-declaration]
+#include <glib-unix.h>
 
 // Ennek a függvénynek a típusa nem GSourceFunc, hanem GUnixFDSourceFunc
 // (https://docs.gtk.org/glib/callback.UnixFDSourceFunc.html). Arról, hogy ez
@@ -38,7 +46,7 @@ gboolean adat_callback(gint fd, GIOCondition condition, gpointer user_data) {
   }
 
   static char buf[1024];
-  int read_ret = read(input_fd, buf, 1023);
+  int read_ret = read(fd, buf, 1023);
   if (read_ret == -1) {
     if (errno != EAGAIN && errno != EWOULDBLOCK) {
       return G_SOURCE_CONTINUE;
@@ -54,7 +62,7 @@ gboolean adat_callback(gint fd, GIOCondition condition, gpointer user_data) {
 }
 
 int main(int argc, char *argv[]) {
-  input_fd = open(argv[1], O_RDONLY | O_NONBLOCK);
+  int input_fd = open(argv[1], O_RDONLY | O_NONBLOCK);
   if (input_fd == -1) {
     perror("opening the file");
     exit(1);

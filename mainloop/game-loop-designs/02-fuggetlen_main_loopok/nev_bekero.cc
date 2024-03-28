@@ -3,6 +3,7 @@
 #include <cwctype>
 #include <iostream>
 #include <vector>
+#include <stdexcept>
 
 constexpr float char_input_box_width = 80.0f;
 constexpr float char_input_box_height = 120.0f;
@@ -131,5 +132,5 @@ std::string nev_bekero(sf::RenderWindow &window) {
     window.display();
   }
 
-  return "ERR";
+  throw std::runtime_error{"Unreachable path at the end of nev_bekero"};
 }

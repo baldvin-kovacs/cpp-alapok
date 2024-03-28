@@ -38,6 +38,7 @@ class Button : public sf::Drawable {
 };
 
 bool game_over(sf::RenderWindow &window) {
+  // Returns True if player requested another round
   sf::Font font;
   if (!font.loadFromFile("../fonts/KodeMono-SemiBold.ttf")) {
     return EXIT_FAILURE;
@@ -72,9 +73,9 @@ bool game_over(sf::RenderWindow &window) {
               break;
             case sf::Keyboard::Enter:
               if (buttons[num_selected].get_result() == "Play again") {
-                return 1;
+                return true;
               } else {
-                return 0;
+                return false;
               }
               break;
             case sf::Keyboard::Escape:
@@ -100,5 +101,5 @@ bool game_over(sf::RenderWindow &window) {
 
   }
 
-  return EXIT_SUCCESS;
+  return false;
 }

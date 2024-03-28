@@ -1,4 +1,7 @@
-all: nev_bekero
+all: \
+	nev_bekero \
+	jatek \
+	game_over
 
 .PHONY: all
 
@@ -12,3 +15,6 @@ nev_bekero: nev_bekero.cc
 
 jatek: jatek.cc
 	g++ -Wall -o jatek jatek.cc $(LDFLAGS)
+
+game_over: game_over.cc
+	g++ -Wall -o game_over game_over.cc $(LDFLAGS)

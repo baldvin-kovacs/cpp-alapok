@@ -22,3 +22,7 @@ megírva. A cél szemléltetni, hogy milyen logika kell hozzájuk, és mit
 kell majd egy programba összefésülni.
 
 
+## Notes
+
+- Akarjuk-e, hogy az egyes képernyők közötti váltás nagyon gyors
+  lehessen? Ha igen, akkor kellhet tudni előtölteni a modelleket.

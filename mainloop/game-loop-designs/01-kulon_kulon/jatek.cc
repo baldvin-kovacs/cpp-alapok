@@ -77,7 +77,7 @@ bool utkozott(sf::Vector2f const& target_pos, sf::Vector2f const& target_size,
 }
 
 int main() {
-  const std::string title{"Név bekérő"};
+  const std::string title{"Játék"};
   sf::RenderWindow window(sf::VideoMode(window_width, window_height),
                           sf::String::fromUtf8(title.begin(), title.end()));
   window.setFramerateLimit(60);
@@ -236,13 +236,13 @@ int main() {
     for (auto& lovedek : lovedekek) {
       if (utkozott(target.getPosition(), target.getSize(),
                    lovedek.getPosition())) {
-        std::cerr << "Talált!" << std::endl;
+        std::cout << "Talált!" << std::endl;
         window.close();
       }
     }
 
     if (target.getPosition().y > window_height) {
-      std::cerr << "Vereség" << std::endl;
+      std::cout << "Vereség" << std::endl;
       window.close();
     }
 

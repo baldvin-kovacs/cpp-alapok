@@ -37,8 +37,8 @@ class Button : public sf::Drawable {
     std::string result;
 };
 
+// Returns true if player requested another round
 bool game_over(sf::RenderWindow &window) {
-  // Returns True if player requested another round
   sf::Font font;
   if (!font.loadFromFile("../fonts/KodeMono-SemiBold.ttf")) {
     return EXIT_FAILURE;

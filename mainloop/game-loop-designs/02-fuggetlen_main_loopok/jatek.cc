@@ -75,9 +75,8 @@ bool utkozott(sf::Vector2f const& target_pos, sf::Vector2f const& target_size,
   return false;
 }
 
-
+// Returns True if player won
 bool jatek(sf::RenderWindow &window) {
-  // Returns True if player won
   sf::Texture urhajo_texture;
   const std::string urhajo_png = "urhajo.png";
   if (!urhajo_texture.loadFromFile(urhajo_png)) {

@@ -15,3 +15,10 @@ megvalósítani:
 
 ![struktura](images/game-ux-structure.png)
 
+## /01-kulon_kulon - A három képernyő, három külön programban
+
+Ebben a könytárban a játék három fázisa három külön programban van
+megírva. A cél szemléltetni, hogy milyen logika kell hozzájuk, és mit
+kell majd egy programba összefésülni.
+
+

@@ -17,6 +17,9 @@ int main() {
 
   std::string name = nev_bekero(window);
   std::cerr << "nev: " << name << std::endl;
+  if (name == "") {
+    return 0;
+  }
   bool play_again = true;
   while (play_again) {
     bool result = jatek(window);
@@ -25,4 +28,5 @@ int main() {
     std::cerr << "ujra jatszani? " << play_again << std::endl;
   }
   window.close();
+  return 0;
 }

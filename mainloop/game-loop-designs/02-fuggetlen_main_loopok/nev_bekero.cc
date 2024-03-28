@@ -132,5 +132,5 @@ std::string nev_bekero(sf::RenderWindow &window) {
     window.display();
   }
 
-  throw std::runtime_error{"Unreachable path at the end of nev_bekero"};
+  return "";
 }

@@ -83,7 +83,7 @@ int main() {
   window.setFramerateLimit(60);
 
   sf::Texture urhajo_texture;
-  const std::string urhajo_png = "urhajo.png";
+  const std::string urhajo_png = "../assets/urhajo.png";
   if (!urhajo_texture.loadFromFile(urhajo_png)) {
     std::cerr << "Could not load: " << urhajo_png << std::endl;
     exit(EXIT_FAILURE);

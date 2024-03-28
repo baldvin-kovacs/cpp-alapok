@@ -21,6 +21,31 @@ Ebben a könytárban a játék három fázisa három külön programban van
 megírva. A cél szemléltetni, hogy milyen logika kell hozzájuk, és mit
 kell majd egy programba összefésülni.
 
+## /02-fuggetlen_main_loopok - Három külön main-loop.
+
+Ebben a könyvtárban a fenti kód legegyszerűbben összefűzött változata
+található. Egyszerűen a három main loop külön-külön implementálva, és
+egy fővezér hívogatja őket.
+
+## /03-scene - Egy main loop implementáció, de scene-enként futtatva.
+
+Ebben már egy kicsit előre lépünk: rájövünk, hogy a main-loop-jaink
+nagyon hasonlóak. Készítünk egy absztrakciót a *Scene*-nek, ami egy
+játék-képernyőnek felel meg. Ez a *Scene* tartalmazza a main loop
+logikáját. A leszármazott osztályok az egyes szabványosított main 
+loop funkciókat specifikálják, virtuális metódusokon keresztül.
+
+Ez a megoldás abból a szempontból előrelépés, hogy elég jól átláthatóvá
+vált a kód, kicsit kevésbé spagetti, mert main loop részei szépen
+külön függvényekben vannak. Az is hasznos, hogy bizonyos képességek
+egy helyen vannak implementálva, például hogy az Escape billentyű
+hatására fejezze be a program a futását.
+
+Ez a megoldás annyiban különbözik egy modern framework-től, hogy egy
+modern framework-ben valószínűleg egyetlen main loop futna a program
+teljes élettartama alatt, és az egyes scene-ek beregisztrálhatók
+illetve kivehetők lennének. Ehhez sokat kéne kódolni, anélkül hogy
+fontos tanulsága lenne, ezért ezt itt nem demonstráljuk.
 
 ## Notes
 
